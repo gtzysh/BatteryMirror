@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">电池镜</string>
+    <string name="monitor_channel">电量记录</string>
+    <string name="monitor_channel_desc">持续记录电量时显示的通知</string>
+    <string name="widget_name">电池镜</string>
+    <string name="widget_desc">看电量、电流和容量，背景可以自己换</string>
+    <string name="widget_bg">小组件背景</string>
+</resources>
