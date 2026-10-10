@@ -10,18 +10,29 @@ import kotlin.math.pow
 data class WidgetStyle(
     val colorArgb: Int = DEFAULT_COLOR,
     val imagePath: String? = null,
+    /** 0 为全透明，255 为不透明。透明时字用浅色，避免贴在壁纸上看不见。 */
+    val backgroundAlpha: Int = 255,
 ) {
-    fun textColor(): Int = if (imagePath != null) LIGHT_TEXT else textColorFor(colorArgb)
-
-    fun mutedTextColor(): Int {
-        val base = textColor()
-        return Color.argb(180, Color.red(base), Color.green(base), Color.blue(base))
+    fun textColor(): Int {
+        if (imagePath != null || backgroundAlpha < 200) return LIGHT_TEXT
+        return textColorFor(colorArgb)
     }
+
+    /** 【图例灰色】四种尺寸共用：状态、电压、温度。浅色背景改成深灰。 */
+    fun mutedTextColor(): Int = if (textColor() == LIGHT_TEXT) MUTED_ON_DARK else MUTED_ON_LIGHT
+
+    /** 【图例黄绿】四种尺寸的健康度。浅色背景改成深绿，避免和浅底糊在一起。 */
+    fun accentColor(): Int = if (textColor() == LIGHT_TEXT) ACCENT_ON_DARK else ACCENT_ON_LIGHT
 
     companion object {
         const val DEFAULT_COLOR = 0xFF151A18.toInt()
         const val LIGHT_TEXT = 0xFFF3F6F1.toInt()
         const val DARK_TEXT = 0xFF14211B.toInt()
+        /** 和 widget_*.xml、预览图里的 #A7B2AB、#D6F25C 相同。 */
+        const val MUTED_ON_DARK = 0xFFA7B2AB.toInt()
+        const val MUTED_ON_LIGHT = 0xFF5C675F.toInt()
+        const val ACCENT_ON_DARK = 0xFFD6F25C.toInt()
+        const val ACCENT_ON_LIGHT = 0xFF1F6A32.toInt()
 
         val presets: List<Pair<String, Int>> = listOf(
             "墨黑" to DEFAULT_COLOR,

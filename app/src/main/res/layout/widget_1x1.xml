@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 【1×1】只放电量和充放电状态。 -->
+<!-- 【1×1】按格子高度平分，字会缩小，避免下面的健康度被裁掉。桌面小组件不能滑动。 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FF151A18">
 
     <ImageView
         android:id="@+id/widget_bg"
@@ -16,25 +16,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/widget_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:autoSizeMaxTextSize="28sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:shadowColor="#99000000"
+            android:shadowRadius="2"
+            android:text="76%"
             android:textColor="#F3F6F1"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            tools:text="76%" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/widget_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#A7B2AB"
-            android:textSize="11sp"
-            tools:text="放电中" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="9sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="放电中"
+            android:textColor="#A7B2AB" />
+
+        <TextView
+            android:id="@+id/widget_health"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="9sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="健康 96%"
+            android:textColor="#D6F25C" />
     </LinearLayout>
 </FrameLayout>

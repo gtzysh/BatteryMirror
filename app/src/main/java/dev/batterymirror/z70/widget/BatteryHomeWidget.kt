@@ -12,7 +12,7 @@ import kotlin.concurrent.thread
  * 【桌面小组件】系统大约每 30 分钟会叫一次。
  * 应用开着或持续记录开着时，仓库会更勤地推一次最新电量。
  */
-class BatteryHomeWidget : AppWidgetProvider() {
+open class BatteryHomeWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         val pending = goAsync()
         thread(name = "battery-widget") {
@@ -59,9 +59,9 @@ object HomeWidgetUpdater {
         if (!force && now - lastPushedAt < 20_000L) return
         lastPushedAt = now
         val manager = AppWidgetManager.getInstance(context)
-        val widgetIds = ids ?: manager.getAppWidgetIds(
-            ComponentName(context, BatteryHomeWidget::class.java),
-        )
+        val widgetIds = ids ?: widgetProviders.flatMap { provider ->
+            manager.getAppWidgetIds(ComponentName(context, provider)).toList()
+        }.toIntArray()
         if (widgetIds.isEmpty()) return
         val reading = if (state?.capturedAt != null) {
             readingFromState(state)
@@ -75,4 +75,20 @@ object HomeWidgetUpdater {
             manager.updateAppWidget(id, views)
         }
     }
+
+    private val widgetProviders = listOf(
+        BatteryWidgetOneByOne::class.java,
+        BatteryWidgetOneByTwo::class.java,
+        BatteryWidgetTwoByOne::class.java,
+        BatteryHomeWidget::class.java,
+    )
 }
+
+/** 【1×1】放置列表里单独一项，不再靠放上去再缩小。 */
+class BatteryWidgetOneByOne : BatteryHomeWidget()
+
+/** 【1×2】竖条，高是宽的两倍。 */
+class BatteryWidgetOneByTwo : BatteryHomeWidget()
+
+/** 【2×1】横条，宽是高的两倍。 */
+class BatteryWidgetTwoByOne : BatteryHomeWidget()

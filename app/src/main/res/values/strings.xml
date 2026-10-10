@@ -3,7 +3,14 @@
     <string name="app_name">电池镜</string>
     <string name="monitor_channel">电量记录</string>
     <string name="monitor_channel_desc">持续记录电量时显示的通知</string>
-    <string name="widget_name">电池镜</string>
-    <string name="widget_desc">看电量、电流和容量，背景可以自己换</string>
+    <string name="widget_name">电量</string>
+    <string name="widget_name_1x1">电量 1×1</string>
+    <string name="widget_name_1x2">电量 1×2</string>
+    <string name="widget_name_2x1">电量 2×1</string>
+    <string name="widget_name_2x2">电量 2×2</string>
+    <string name="widget_desc">电量、电流、健康度和容量</string>
+    <string name="widget_desc_1x1">一小格：电量和健康度</string>
+    <string name="widget_desc_1x2">竖条：电量、电流和容量结论</string>
+    <string name="widget_desc_2x1">横条：电量、电流、功率和健康度</string>
     <string name="widget_bg">小组件背景</string>
 </resources>

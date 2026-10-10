@@ -391,9 +391,11 @@ private fun SettingsScreen(state: MirrorUiState, viewModel: BatteryViewModel) {
             Text(state.systemHeadline.ifBlank { "还没读到系统版本" }, style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(4.dp))
             Text(state.modelLine, style = MaterialTheme.typography.bodyLarge)
-            if (state.sdkInt > 0) {
-                Text("API ${state.sdkInt}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+            Text(
+                "版本 ${appVersionName()}" + if (state.sdkInt > 0) " · API ${state.sdkInt}" else "",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             if (state.displayLine.isNotBlank()) {
                 Spacer(Modifier.height(6.dp))
                 Text(state.displayLine, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)

@@ -1,8 +1,10 @@
 # 电池镜设计
 
-## 目标系统
+## 适用范围
 
-国行努比亚 Z70 Ultra，官方系统，不是第三方包。
+Android 10 及以上。应用版本 **1.2.10**。四种小组件在深色底上共用图例颜色：电量、电流、功率、容量结论用浅色，状态、电压、温度用灰色，健康度用黄绿。浅色背景会改成深色字。2×2 固定八项，不会再显示成放大的 2×1 或 1×2。（`app/build.gradle.kts` 的 `versionName`，设置页会显示同一串）。容量优先读这台手机电量计自己报的设计容量和满充容量，不限品牌。
+
+下面这台国行努比亚是写应用时核对过的机器，不是唯一能用的机型：
 
 | 项目 | 值 |
 | --- | --- |
@@ -20,7 +22,7 @@
 
 ## 为什么不能做分应用耗电
 
-`BATTERY_STATS` 是系统签名权限。星云 AIOS 不会把它授给普通应用，所以这里只做整机：电流积分、剩余容量差值和电量百分比估算。分应用排行交给系统电池页。
+`BATTERY_STATS` 是系统签名权限。普通应用拿不到，所以这里只做整机：电流积分、剩余容量差值和电量百分比估算。分应用排行交给系统电池页。
 
 ## 容量有没有缩减
 
@@ -42,7 +44,7 @@
 满充容量按这个顺序取，取到就停：
 
 1. 节点 `charge_full`（微安时；小于 10 万的数当成毫安时）
-2. Android 16 `BatteryManager` 属性 10，即 state of health。它的定义就是满充容量相对额定容量的百分比。星云若没开放，调用会失败，不当成 0%
+2. Android 16 `BatteryManager` 属性 10，即 state of health。它的定义就是满充容量相对额定容量的百分比。系统若没开放，调用会失败，不当成 0%
 3. 节点里的 `soh` / `battery_soh`
 4. 以前充满到 100% 且电流很小的时候，用剩余容量反推并记下的中位数
 5. 此刻电量不低于 99% 且已经充满或电流很小，临时反推
@@ -88,20 +90,21 @@ Android 16 的健康度用属性编号 10 去问，这样用 SDK 35 也能编译
 
 ## 桌面小组件
 
-一块小组件可以在桌面上拉成三种大小：
+放置时按所选尺寸用对应图例，内容和文字颜色都跟预览一致。长按拖边缘只改变格子大小，不会把 2×2 收成 2×1 或 1×2。
 
-- 1×1：电量和充放电状态
-- 1×2：再加上电流。拉宽成横条时，改成电量旁边排状态、电流和功率
-- 2×2：再加上功率、电压和容量结论
+- 1×1：电量、状态、健康度
+- 1×2：电量、状态、电流、健康度、容量结论
+- 2×1：电量、状态、电流、功率、健康度，横条两行
+- 2×2：电量、状态、健康度、容量结论、电流、功率、电压、温度
 
-添加时先选背景。背景可以是纯色（预设或红绿蓝自选），也可以从相册选一张图。图片会缩小后只存在本机。每个小组件的背景互不影响。应用打开或持续记录开着时，大约 20 秒推一次新电量；只放在桌面上时，系统大约 30 分钟刷新一次。
+深色底上，电量和结论是浅色，状态、电压、温度是灰色，健康度是黄绿。四种尺寸同一套颜色。系统没报健康度时，用算出来的保持率。背景铺满格子，圆角由桌面裁一次。文字按格子高度缩小。桌面小组件不能上下滑动。四项都带预览图。背景可以调透明度，0 是全透明。配置页可以跳过。星云桌面上，长按空白处，在窗口小工具里的「电池镜」下面找「电量 1×1」「电量 1×2」「电量 2×1」「电量 2×2」。背景也可以是纯色或相册图片。图片会缩小后只存在本机。每个小组件的背景互不影响。应用打开或持续记录开着时，大约 20 秒推一次新电量；只放在桌面上时，系统大约 30 分钟刷新一次。
 
 ## 代码落点
 
 - `core/src/main/kotlin/dev/batterymirror/core/CapacityMath.kt`：缩水判断
 - `core/src/main/kotlin/dev/batterymirror/core/UsageMath.kt`：毫安时积分
-- `core/src/main/kotlin/dev/batterymirror/core/DeviceProfiles.kt`：Z70 / Z70S 典型容量
-- `core/src/main/kotlin/dev/batterymirror/core/SystemBuildParser.kt`：从版本号抽出星云 AIOS 版本
+- `core/src/main/kotlin/dev/batterymirror/core/DeviceProfiles.kt`：电量计没有设计容量时，Z70 / Z70S 的官网典型值
+- `core/src/main/kotlin/dev/batterymirror/core/SystemBuildParser.kt`：从版本号抽出星云 AIOS 版本，其他系统就显示 Android 版本
 - `app/src/main/java/dev/batterymirror/z70/probe/Probes.kt`：BatteryManager 和 `/sys/class/power_supply`
 - `app/src/main/java/dev/batterymirror/z70/data/BatteryRepository.kt`：把采样收成四个页面共用的状态
 - `app/src/main/java/dev/batterymirror/z70/data/Stores.kt`：本机设置和 7 天记录

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 【2×1】把 1×2 拉宽时用横条，避免字挤成一列。 -->
+<!-- 【2×1】只排两行，避免四行字把一格高的横条撑成不标准的高度。 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FF151A18">
 
     <ImageView
         android:id="@+id/widget_bg"
@@ -18,48 +18,104 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/widget_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:autoSizeMaxTextSize="28sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="94%"
             android:textColor="#F3F6F1"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            tools:text="76%" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1.6"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/widget_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#A7B2AB"
-                android:textSize="12sp"
-                tools:text="放电中" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/widget_current"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="#F3F6F1"
-                android:textSize="14sp"
-                tools:text="放 480 mA" />
+                <TextView
+                    android:id="@+id/widget_status"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:autoSizeMaxTextSize="13sp"
+                    android:autoSizeMinTextSize="9sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:text="放电中"
+                    android:textColor="#A7B2AB" />
 
-            <TextView
-                android:id="@+id/widget_power"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#F3F6F1"
-                android:textSize="14sp"
-                tools:text="1.9 W" />
+                <TextView
+                    android:id="@+id/widget_current"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:autoSizeMaxTextSize="13sp"
+                    android:autoSizeMinTextSize="9sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical|end"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:text="放 469 mA"
+                    android:textColor="#F3F6F1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/widget_power"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:autoSizeMaxTextSize="13sp"
+                    android:autoSizeMinTextSize="9sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:text="1.9 W"
+                    android:textColor="#F3F6F1" />
+
+                <TextView
+                    android:id="@+id/widget_health"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:autoSizeMaxTextSize="13sp"
+                    android:autoSizeMinTextSize="9sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical|end"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:text="健康 96%"
+                    android:textColor="#D6F25C" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

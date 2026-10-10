@@ -21,12 +21,14 @@ class WidgetStyleStore(context: Context) {
     fun read(widgetId: Int): WidgetStyle {
         val color = prefs.getInt(colorKey(widgetId), WidgetStyle.DEFAULT_COLOR)
         val path = prefs.getString(imageKey(widgetId), null)?.takeIf { File(it).isFile }
-        return WidgetStyle(color, path)
+        val alpha = prefs.getInt(alphaKey(widgetId), 255).coerceIn(0, 255)
+        return WidgetStyle(color, path, alpha)
     }
 
     fun save(widgetId: Int, style: WidgetStyle) {
         prefs.edit()
             .putInt(colorKey(widgetId), style.colorArgb)
+            .putInt(alphaKey(widgetId), style.backgroundAlpha.coerceIn(0, 255))
             .putString(imageKey(widgetId), style.imagePath)
             .apply()
     }
@@ -61,7 +63,7 @@ class WidgetStyleStore(context: Context) {
 
     fun delete(widgetId: Int) {
         clearImage(widgetId)
-        prefs.edit().remove(colorKey(widgetId)).apply()
+        prefs.edit().remove(colorKey(widgetId)).remove(alphaKey(widgetId)).apply()
     }
 
     private fun scaleDown(source: Bitmap, maxEdge: Int): Bitmap {
@@ -76,6 +78,8 @@ class WidgetStyleStore(context: Context) {
     private fun colorKey(widgetId: Int) = "color_$widgetId"
 
     private fun imageKey(widgetId: Int) = "image_$widgetId"
+
+    private fun alphaKey(widgetId: Int) = "alpha_$widgetId"
 
     companion object {
         private const val PREFS = "battery_widget_style"

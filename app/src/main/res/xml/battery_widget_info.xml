@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 【小组件】默认可从 1×1 拉到 2×2。添加时先选背景。 -->
+<!-- 【2×2】放置列表里单独一项，拖动时用带字的布局，避免空影子。 -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:configure="dev.batterymirror.z70.widget.WidgetConfigureActivity"
     android:description="@string/widget_desc"
-    android:initialLayout="@layout/widget_1x1"
-    android:minWidth="40dp"
-    android:minHeight="40dp"
-    android:minResizeWidth="40dp"
-    android:minResizeHeight="40dp"
-    android:maxResizeWidth="320dp"
-    android:maxResizeHeight="320dp"
-    android:previewLayout="@layout/widget_2x2"
-    android:resizeMode="horizontal|vertical"
+    android:initialLayout="@layout/widget_2x2"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
     android:targetCellWidth="2"
     android:targetCellHeight="2"
+    android:minResizeWidth="40dp"
+    android:minResizeHeight="40dp"
+    android:maxResizeWidth="250dp"
+    android:maxResizeHeight="250dp"
+    android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/widget_preview_2x2"
+    android:previewLayout="@layout/widget_2x2"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
-    android:widgetFeatures="reconfigurable" />
+    android:widgetFeatures="reconfigurable|configuration_optional" />

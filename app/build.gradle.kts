@@ -13,8 +13,9 @@ android {
         applicationId = "dev.batterymirror.z70"
         minSdk = 29
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        // 【版本】1.2.10：四种尺寸都按各自图例上色；2×2 固定八项，不再收成 2×1 或 1×2。
+        versionCode = 13
+        versionName = "1.2.10"
         vectorDrawables {
             useSupportLibrary = true
         }
